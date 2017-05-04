@@ -10,18 +10,8 @@
 #define GUI_H_
 #include "TinyTimber.h"
 #include <avr/io.h>
-
-typedef struct{
-	Object super;
-}GUI;
-
-
-#define initGUI() {initObject()}
 	
 void printAt(long num, int pos);
-
-void printAt1(long num);
-void printAt2(long num);
 
 void writeChar(char ch, int pos);
 void decodeChar(char ch, int* decoded);

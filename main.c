@@ -1,9 +1,4 @@
-/*
- * lab5.c
- *
- * Created: 2017-03-06 17:21:15
- * Author : Vikhram Ravi
- */ 
+#define F_CPU 8000000// Clock Speed
 
 #include <avr/io.h>
 #include <avr/interrupt.h>
@@ -14,64 +9,39 @@
 
 
 //#define MYUBRR ((FOSC/16/BAUD)-1)
-//#define FOSC 8000000//1843200// Clock Speed
+//#define FOSC 8000000// Clock Speed
 //#define BAUD 9600
 
 //#define BAUDRATE_2400 207
 
-//#define UBRR 51//((FOSC/(16*BAUD))-1)
+#define UBRR 51//((FOSC/(16*BAUD))-1) 
 
 
 int main(void){
 
 	initLCD();
-	
 	USART_Init();
-	GUI gui = initGUI();
-	Controller controller = initController(&gui);
+	
+	Controller controller = initController();
 	USART usart = initUSART(&controller);
 	INSTALL(&usart,receiveH,IRQ_USART0_RX);
 	sei();
-
-//   	while(1)//!(UCSR0A & (1<<7)))
-//  	{
-// 	     //while (!( UCSR0A & (1<<UDRE0)));                // wait while register is free
-//  		 UDR0 = 'A';
-//   		_delay_ms(500);
-// 
-//  	}
-	printAt(0,0);
-	
 	return TINYTIMBER(&controller,start,0);
 
 }
 
 void USART_Init(){
 	
-	//Table 2400 baud rate / (7) 8! data bits / Parity none / Stop bits 1 / Handshaking none
 	
-	
-	//Mattias Settings
-	unsigned int ubrr = 51;
-	UBRR0H = (unsigned char)(ubrr >> 8);
-	UBRR0L = (unsigned char)(ubrr);
-	UCSR0B = (1 << RXEN0) | (1 << TXEN0) | (1 << RXCIE0);
-	UCSR0C = (0 << USBS0) | /*(1 << UCSZ01) |*/ (2<<UCSZ00);
-	EIMSK = 0xc0;
-	
-// 	/*Set baud rate */
-// 	//unsigned char MYUBRR = 51;
-// 	UBRR0H = UBRR >> 8 ;
-// 	UBRR0L = UBRR;
-// 	/* Enable interrupts |	receiver	| transmitter */
-// 	UCSR0B = (1<<RXCIE0) |	(1<<RXEN0)	| (1<<TXEN0);
-// 	/*Synchronous mode (U_S_ART). frame format: 8-bit data. no parity, 1 stop bit (no usbs = 1 stop) */
-// 	UCSR0C = /*(1<< UMSEL0) |*/(1<<UCSZ01)|(1<<UCSZ00); /*(1<<USBS0)|*/
-// 
-// 	/* Setting XCK (time sync) to master (one of those...)
-// 	DDRD |= (1<<PD4);
-// 	PORTE |= (1<<PCINT2);
-// 	*/
+	/*Set baud rate */
+	//unsigned char MYUBRR = 51;
+	UBRR0H = UBRR >> 8 ;
+	UBRR0L = UBRR;
+	/* Enable interrupts |	receiver	| transmitter */
+	UCSR0B = (1<<RXCIE0) |	(1<<RXEN0)	| (1<<TXEN0);
+	/*Synchronous mode (U_S_ART). frame format: 8-bit data. no parity, 1 stop bit (no usbs = 1 stop) */
+	UCSR0C = /*(1<< UMSEL0) |*/(1<<UCSZ01)|(1<<UCSZ00); /*(1<<USBS0)|*/
+
 }
 
 

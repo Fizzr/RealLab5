@@ -137,25 +137,7 @@ void writeChar(char ch, int pos)
 }
 void printAt(long num, int pos) 
 {
-	if(num > 9)
-	{
-		writeChar( (num % 100) / 10 + '0', pos);
-		pos++;
-		writeChar( num % 10 + '0', pos);
-	}
-	else
-	{
-		writeChar(num + '0' , pos);
-	}
-}
-
-
-void printAt1(long num) {
-	writeChar( (num % 100) / 10 + '0', 0);
-	writeChar( num % 10 + '0', 1);
-}
-
-void printAt2(long num) {
-	writeChar( (num % 100) / 10 + '0', 3);
-	writeChar( num % 10 + '0', 4);
+	writeChar( (num % 100) / 10 + '0', pos);
+	pos++;
+	writeChar( num % 10 + '0', pos);
 }
